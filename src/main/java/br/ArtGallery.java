@@ -1,6 +1,7 @@
 package br;
 
 import br.IArtGallery;
+import br.exception.ObraJaCadastradaException;
 import br.model.Avaliacao;
 import br.model.Obra;
 import br.repository.IRepositorioObra;
@@ -22,7 +23,7 @@ public class ArtGallery implements IArtGallery {
     }
 
     @Override
-    public void publicarObra(Obra obra) {
+    public void publicarObra(Obra obra) throws ObraJaCadastradaException {
         obraService.publicarObra(obra);
     }
 
