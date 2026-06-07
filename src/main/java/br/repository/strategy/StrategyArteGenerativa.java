@@ -53,6 +53,7 @@ public class StrategyArteGenerativa implements IStrategyBank {
                 long seedResultado = rs.getLong("seed");
                 ArteGenerativa ag = new ArteGenerativa(titulo, autor, algoritmoResultado, seedResultado);
                 ag.setAtiva(ativa);
+                ag.setId(obraId);
                 return ag;
             }
         }

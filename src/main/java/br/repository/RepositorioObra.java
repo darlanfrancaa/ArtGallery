@@ -90,7 +90,6 @@ public class RepositorioObra implements IRepositorioObra{
         return null;
     }
 
-    // No RepositorioObra.java
     @Override
     public boolean atualizar(Obra obra) {
         String sql = "UPDATE obras SET autor = ?, ativa = ? WHERE id = ?";
@@ -184,6 +183,7 @@ public class RepositorioObra implements IRepositorioObra{
                         // Precisa preenhcer o vetor de Avaliacoes daquela obra também
                         obraEncontrada.setAvaliacoes(avalicaoRepository.buscarPorObra(idBanco));
                         obras.add(obraEncontrada);
+                        return obras;
                     }
                 }
             }

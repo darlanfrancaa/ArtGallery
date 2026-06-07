@@ -51,6 +51,7 @@ public class StrategyModelagem3D implements IStrategyBank {
                 String engineResultado = rs.getString("engine");
                 Modelagem3D m3d = new Modelagem3D(titulo, autor, poligonosResultado, engineResultado);
                 m3d.setAtiva(ativa);
+                m3d.setId(obraId);
                 return m3d;
             }
         }

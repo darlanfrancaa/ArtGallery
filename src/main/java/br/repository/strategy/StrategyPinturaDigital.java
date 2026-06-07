@@ -51,6 +51,7 @@ public class StrategyPinturaDigital implements IStrategyBank {
                 String softwareResultado = rs.getString("software");
                 PinturaDigital pd = new PinturaDigital(titulo, autor, resolucaoResultado, softwareResultado);
                 pd.setAtiva(ativa);
+                pd.setId(obraId);
                 return pd;
             }
         }
