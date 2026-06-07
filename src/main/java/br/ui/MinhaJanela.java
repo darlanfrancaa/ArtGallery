@@ -6,6 +6,7 @@ import br.repository.IRepositorioObra;
 import br.service.AvaliacaoService;
 import br.service.ObraService;
 import br.ui.components.TelaCadastroObras;
+import br.ui.components.TelaRemocaoObras;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,15 +32,17 @@ public class MinhaJanela extends JFrame {
         painelCentral = new JPanel(cardLayout);
 
         TelaCadastroObras cadastroObras = new TelaCadastroObras(artGallery);
+        TelaRemocaoObras remocaoObras = new TelaRemocaoObras(artGallery);
+
         JLabel teste = new JLabel("Teste", SwingConstants.CENTER);
 
         painelCentral.add(cadastroObras, "tela_1");
-        painelCentral.add(new JLabel("Tela 2: Remoção de Obras", SwingConstants.CENTER), "tela_2");
-        painelCentral.add(teste, "tela_3");
-        painelCentral.add(teste, "tela_4");
-        painelCentral.add(teste, "tela_5");
-        painelCentral.add(teste, "tela_6");
-        painelCentral.add(teste, "tela_7");
+        painelCentral.add(remocaoObras, "tela_2");
+        painelCentral.add(new JLabel("Teste 3", SwingConstants.CENTER), "tela_3");
+        painelCentral.add(new JLabel("Teste 4", SwingConstants.CENTER), "tela_4");
+        painelCentral.add(new JLabel("Teste 5", SwingConstants.CENTER), "tela_5");
+        painelCentral.add(new JLabel("Teste 6", SwingConstants.CENTER), "tela_6");
+        painelCentral.add(new JLabel("Teste 7", SwingConstants.CENTER), "tela_7");
 
         add(painelCentral, BorderLayout.CENTER);
 

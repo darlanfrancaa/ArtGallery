@@ -1,7 +1,9 @@
 package br;
 
 import br.IArtGallery;
+import br.exception.ObraInativaException;
 import br.exception.ObraJaCadastradaException;
+import br.exception.ObraNaoEncontradaException;
 import br.model.Avaliacao;
 import br.model.Obra;
 import br.repository.IRepositorioObra;
@@ -28,12 +30,12 @@ public class ArtGallery implements IArtGallery {
     }
 
     @Override
-    public void removerObra(String titulo) {
+    public void removerObra(String titulo) throws ObraNaoEncontradaException, ObraInativaException {
         obraService.removerObra(titulo);
     }
 
     @Override
-    public void avaliarObra(String titulo, Avaliacao avaliacao) {
+    public void avaliarObra(String titulo, Avaliacao avaliacao) throws ObraNaoEncontradaException, ObraInativaException {
         avaliacaoService.avaliarObra(titulo, avaliacao);
     }
 

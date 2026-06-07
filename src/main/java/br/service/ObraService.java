@@ -34,7 +34,7 @@ public class ObraService {
         }
     }
 
-    public void removerObra(String titulo){
+    public void removerObra(String titulo) throws ObraNaoEncontradaException, ObraInativaException{
         Obra obraBanco = obraRepository.buscar(titulo);
         if(obraBanco == null) {
             throw new ObraNaoEncontradaException("Obra com título: " +  titulo + " não encontrada.");

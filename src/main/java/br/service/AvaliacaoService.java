@@ -18,7 +18,7 @@ public class AvaliacaoService {
         this.avaliacaoRepository = avaliacaoRepository;
     }
 
-    public void avaliarObra(String titulo, Avaliacao avaliacao){
+    public void avaliarObra(String titulo, Avaliacao avaliacao) throws ObraInativaException, ObraNaoEncontradaException {
         // primeiro eu tenho que checar se a obra existe e está ativa e depois eu preciso salvar a avaliacao no banco e
         // colocar a avalição no Vector da obra
         Obra obraBanco = obraRepository.buscar(titulo);
