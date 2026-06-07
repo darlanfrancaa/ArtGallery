@@ -6,6 +6,7 @@ import br.exception.ObraNaoEncontradaException;
 import br.model.Avaliacao;
 import br.model.Exposicao;
 import br.model.Obra;
+import br.repository.IRepositorioObra;
 import br.repository.RepositorioExposicao;
 import br.repository.RepositorioObra;
 
@@ -15,15 +16,15 @@ import java.util.Vector;
 
 public class ObraService {
 
-    private final RepositorioObra obraRepository;
+    private final IRepositorioObra obraRepository;
     private final RepositorioExposicao exposicaoRepository;
 
-    public ObraService(RepositorioObra obraRepository, RepositorioExposicao exposicaoRepository) {
+    public ObraService(IRepositorioObra obraRepository, RepositorioExposicao exposicaoRepository) {
         this.obraRepository = obraRepository;
         this.exposicaoRepository = exposicaoRepository;
     }
 
-    public void publicarObra(Obra obra){
+    public void publicarObra(Obra obra) throws ObraJaCadastradaException{
         String titulo  = obra.getTitulo();
         Obra obraBanco = obraRepository.buscar(titulo);
         if(obraBanco == null){
@@ -33,14 +34,14 @@ public class ObraService {
         }
     }
 
-    public void removerObra(Obra obra){
-        Obra obraBanco = obraRepository.buscar(obra.getTitulo());
+    public void removerObra(String titulo){
+        Obra obraBanco = obraRepository.buscar(titulo);
         if(obraBanco == null) {
-            throw new ObraNaoEncontradaException("Obra com título: " +  obra.getTitulo() + " não encontrada.");
+            throw new ObraNaoEncontradaException("Obra com título: " +  titulo + " não encontrada.");
         } else if(!obraBanco.isAtiva()) {
-            throw new ObraInativaException("A obra com título " + obra.getTitulo() + " está inativa.");
+            throw new ObraInativaException("A obra com título " + titulo + " está inativa.");
         } else {
-            obraRepository.remover(obra.getTitulo());
+            obraRepository.remover(titulo);
         }
     }
 

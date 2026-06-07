@@ -3,7 +3,7 @@ package br.model;
 import java.util.Vector;
 
 public class Exposicao {
-    private int id;
+    private long id;
     private String nome;
     private Vector<Obra> obras;
 
@@ -27,7 +27,7 @@ public class Exposicao {
         return nome;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

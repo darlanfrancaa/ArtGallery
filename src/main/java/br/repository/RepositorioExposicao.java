@@ -17,9 +17,9 @@ import java.util.Vector;
 public class RepositorioExposicao implements IRepositorioExposicao {
 
     private final Map<Class<? extends Obra>, IStrategyBank> registry = new HashMap<>();
-    private final RepositorioObra obraRepository;
+    private final IRepositorioObra obraRepository;
 
-    public RepositorioExposicao(RepositorioObra obraRepository) {
+    public RepositorioExposicao(IRepositorioObra obraRepository) {
         this.obraRepository = obraRepository;
         registry.put(PinturaDigital.class, new StrategyPinturaDigital());
         registry.put(ArteGenerativa.class, new StrategyArteGenerativa());
@@ -65,7 +65,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
         String sql = "INSERT INTO exposicoes_obras (exposicao_id, obra_id) VALUES (?, ?)";
         try(Connection connection = ConnectionFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)){
-            statement.setInt(1, exposicao.getId());
+            statement.setLong(1, exposicao.getId());
             statement.setInt(2,obra.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

@@ -193,6 +193,7 @@ public class RepositorioObra implements IRepositorioObra{
         return null;
     }
 
+    @Override
     public Obra buscarObraPorTipo(Connection conn, int id, String titulo, String autor, boolean ativa, String tipo) throws SQLException {
         IStrategyBank strategyBank = this.getStrategyByTipo(tipo);
         if (strategyBank != null) {
