@@ -136,11 +136,11 @@ public class TelaCadastroObras extends JPanel {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Erro: os campos númericos estão inválidos.");
         }
-//        catch (ObraJaCadastradaException e) {
-//            JOptionPane.showMessageDialog(this, "Essa obra já foi cadastrada");
-//        }
-//        catch (Exception ex) {
-//            JOptionPane.showMessageDialog(this, "Erro inesperado ao cadastrar obra.");
-//        }
+        catch (ObraJaCadastradaException e) {
+            JOptionPane.showMessageDialog(this, "Essa obra já foi cadastrada");
+        }
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro inesperado ao cadastrar obra.");
+        }
     }
 }
