@@ -1,6 +1,7 @@
 package br.ui.components;
 
 import br.IArtGallery;
+import br.exception.NotaInvalidaException;
 import br.exception.ObraInativaException;
 import br.exception.ObraJaCadastradaException;
 import br.exception.ObraNaoEncontradaException;
@@ -20,6 +21,7 @@ public class TelaRemocaoObras extends JPanel {
         this.artGallery = artGallery;
 
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JPanel inicial = new JPanel(new GridLayout(0,2,10,10));
         titulo = new JTextField();
@@ -36,8 +38,8 @@ public class TelaRemocaoObras extends JPanel {
         add(total, BorderLayout.NORTH);
     }
 
-    private void removerObra(){
-        String tituloObra = titulo.getText();
+    private void removerObra() {
+        String tituloObra = titulo.getText().trim();
         Obra obra = null;
         try{
             artGallery.removerObra(tituloObra);
@@ -51,6 +53,9 @@ public class TelaRemocaoObras extends JPanel {
         }
         catch (RuntimeException e) {
            JOptionPane.showMessageDialog(this, "Erro inesperado ao apagar a mensagem.");
+        }
+        catch (NotaInvalidaException e){
+            JOptionPane.showMessageDialog(this, "Alguma nota dessa obra é inválida");
         }
     }
 }

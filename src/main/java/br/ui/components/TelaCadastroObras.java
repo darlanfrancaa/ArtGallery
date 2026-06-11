@@ -43,6 +43,7 @@ public class TelaCadastroObras extends JPanel {
         this.artGallery = artGallery;
 
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JPanel inicial = new JPanel(new GridLayout(0,2,10,10));
         titulo = new JTextField();
@@ -107,24 +108,24 @@ public class TelaCadastroObras extends JPanel {
     }
 
     private void cadastrarObra(){
-        String tituloObra = titulo.getText();
-        String autorObra = autor.getText();
+        String tituloObra = titulo.getText().trim();
+        String autorObra = autor.getText().trim();
         String tipoEscolhido = (String) tipoObra.getSelectedItem();
         Obra obra = null;
         try{
             if(tipoEscolhido.equals("Modelagem 3D")) {
-                int qtdPoligonosObra = Integer.parseInt(poligonos.getText());
-                String engineObra = engine.getText();
+                int qtdPoligonosObra = Integer.parseInt(poligonos.getText().trim());
+                String engineObra = engine.getText().trim();
                 obra = new Modelagem3D(tituloObra, autorObra, qtdPoligonosObra, engineObra);
             }
             else if(tipoEscolhido.equals("Arte Generativa")) {
-                String algoritmoObra = algoritmo.getText();
-                long seedObra = Long.parseLong(seed.getText());
+                String algoritmoObra = algoritmo.getText().trim();
+                long seedObra = Long.parseLong(seed.getText().trim());
                 obra = new ArteGenerativa(tituloObra, autorObra, algoritmoObra, seedObra);
             }
             else if(tipoEscolhido.equals("Pintura Digital")) {
-                String resolucaoObra = resolucao.getText();
-                String softwareObra = softwarePintura.getText();
+                String resolucaoObra = resolucao.getText().trim();
+                String softwareObra = softwarePintura.getText().trim();
                 obra = new PinturaDigital(tituloObra, autorObra, resolucaoObra, softwareObra);
             }
 

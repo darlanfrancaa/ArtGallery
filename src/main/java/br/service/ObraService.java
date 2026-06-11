@@ -1,5 +1,6 @@
 package br.service;
 
+import br.exception.NotaInvalidaException;
 import br.exception.ObraInativaException;
 import br.exception.ObraJaCadastradaException;
 import br.exception.ObraNaoEncontradaException;
@@ -24,7 +25,7 @@ public class ObraService {
         this.exposicaoRepository = exposicaoRepository;
     }
 
-    public void publicarObra(Obra obra) throws ObraJaCadastradaException{
+    public void publicarObra(Obra obra) throws ObraJaCadastradaException, NotaInvalidaException {
         String titulo  = obra.getTitulo();
         Obra obraBanco = obraRepository.buscar(titulo);
         if(obraBanco == null){
@@ -34,7 +35,7 @@ public class ObraService {
         }
     }
 
-    public void removerObra(String titulo) throws ObraNaoEncontradaException, ObraInativaException{
+    public void removerObra(String titulo) throws ObraNaoEncontradaException, ObraInativaException , NotaInvalidaException{
         Obra obraBanco = obraRepository.buscar(titulo);
         if(obraBanco == null) {
             throw new ObraNaoEncontradaException("Obra com título: " +  titulo + " não encontrada.");
@@ -45,7 +46,7 @@ public class ObraService {
         }
     }
 
-    public Vector<Obra> listarObras(){
+    public Vector<Obra> listarObras() throws NotaInvalidaException{
         Vector<Obra> obrasCadastradas = obraRepository.listar();
         Vector<Obra> obrasAtivas = new Vector<>();
         for(Obra obra: obrasCadastradas){
@@ -54,17 +55,17 @@ public class ObraService {
         return obrasAtivas;
     }
 
-    public Vector<Obra> buscaPorAutor(String autor){
+    public Vector<Obra> buscaPorAutor(String autor) throws NotaInvalidaException{
         return obraRepository.findByAutor(autor);
     }
 
-    public Vector<Obra> topObras() {
+    public Vector<Obra> topObras() throws NotaInvalidaException{
         Vector<Obra> obras = obraRepository.listar();
         obras.sort(Comparator.comparingDouble(Obra::mediaAvaliacoes).reversed());
         return obras;
     }
 
-    public Vector<Obra> obrasExpostas(String nomeExposicao){
+    public Vector<Obra> obrasExpostas(String nomeExposicao) throws NotaInvalidaException{
         Exposicao exposicao = exposicaoRepository.getExpByNome(nomeExposicao);
         return exposicaoRepository.getObras(exposicao);
     }

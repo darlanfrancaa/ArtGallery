@@ -1,5 +1,6 @@
 package br.repository;
 
+import br.exception.NotaInvalidaException;
 import br.model.Avaliacao;
 import br.config.ConnectionFactory;
 
@@ -29,7 +30,7 @@ public class RepositorioAvaliacao implements IRepositorioAvaliacao {
         }
     }
 
-    public Vector<Avaliacao> buscarPorObra(int obraId) {
+    public Vector<Avaliacao> buscarPorObra(int obraId) throws NotaInvalidaException {
         Vector<Avaliacao> avaliacoes = new Vector<>();
         String sql = "SELECT usuario, nota, comentario FROM avaliacoes WHERE obra_id = ?";
 

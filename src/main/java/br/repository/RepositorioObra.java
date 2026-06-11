@@ -1,6 +1,7 @@
 package br.repository;
 
 import br.config.ConnectionFactory;
+import br.exception.NotaInvalidaException;
 import br.exception.ObraNaoEncontradaException;
 import br.model.ArteGenerativa;
 import br.model.Modelagem3D;
@@ -64,7 +65,7 @@ public class RepositorioObra implements IRepositorioObra{
     }
 
     @Override
-    public Obra buscar(String titulo) {
+    public Obra buscar(String titulo) throws NotaInvalidaException {
         String sql = "SELECT id, autor, ativa, tipo FROM obras WHERE titulo = ?";
         try(Connection connection = ConnectionFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)){
@@ -133,7 +134,7 @@ public class RepositorioObra implements IRepositorioObra{
     }
 
     @Override
-    public Vector<Obra> listar() {
+    public Vector<Obra> listar() throws NotaInvalidaException {
         Vector<Obra> obrasCadastradas = new Vector<>();
 
         try(Connection conn = ConnectionFactory.getConnection()) {
@@ -163,7 +164,7 @@ public class RepositorioObra implements IRepositorioObra{
     }
 
     @Override
-    public Vector<Obra> findByAutor(String autor) {
+    public Vector<Obra> findByAutor(String autor)  throws NotaInvalidaException {
         Vector<Obra> obras = new Vector<>();
         String sql = "SELECT id, titulo, autor, ativa, tipo FROM obras WHERE autor = ?";
         try(Connection conn = ConnectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(sql)){
@@ -194,7 +195,7 @@ public class RepositorioObra implements IRepositorioObra{
     }
 
     @Override
-    public Obra buscarObraPorTipo(Connection conn, int id, String titulo, String autor, boolean ativa, String tipo) throws SQLException {
+    public Obra buscarObraPorTipo(Connection conn, int id, String titulo, String autor, boolean ativa, String tipo) throws SQLException, NotaInvalidaException {
         IStrategyBank strategyBank = this.getStrategyByTipo(tipo);
         if (strategyBank != null) {
             Obra obraEncontrada = strategyBank.buscar(conn, id, titulo, autor, ativa);

@@ -7,7 +7,7 @@ public class Avaliacao {
     private int nota;
     private String comentario;
 
-    public Avaliacao(String usuario, int nota, String comentario){
+    public Avaliacao(String usuario, int nota, String comentario) throws NotaInvalidaException {
         this.usuario = usuario;
         this.comentario = comentario;
         if (nota < 0 || nota > 10) {
@@ -16,7 +16,7 @@ public class Avaliacao {
         this.nota = nota;
     }
 
-    public void setNota(int nota){
+    public void setNota(int nota) throws NotaInvalidaException {
         if(nota < 0 || nota > 10) {
             throw new NotaInvalidaException("Nota inválida (deve estar entre 0 e 10). Valor recebido: " + nota);
         }

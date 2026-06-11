@@ -1,6 +1,7 @@
 package br.repository;
 
 import br.config.ConnectionFactory;
+import br.exception.NotaInvalidaException;
 import br.model.*;
 import br.repository.strategy.IStrategyBank;
 import br.repository.strategy.StrategyArteGenerativa;
@@ -73,7 +74,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
         }
     }
 
-    public Exposicao getExpByNome(String nomeExposicao){
+    public Exposicao getExpByNome(String nomeExposicao) throws NotaInvalidaException{
         String sql = "SELECT id, nome FROM exposicoes WHERE nome = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -94,7 +95,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
         return null;
     }
 
-    public Vector<Obra> getObras(Exposicao exposicao) {
+    public Vector<Obra> getObras(Exposicao exposicao) throws NotaInvalidaException {
         Vector<Obra> obrasExpostas = new Vector<>();
         String sql = "SELECT o.id, o.titulo, o.autor, o.ativa, o.tipo " +
                 "FROM obras o " +
