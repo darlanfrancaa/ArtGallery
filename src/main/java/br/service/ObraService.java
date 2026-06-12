@@ -1,9 +1,6 @@
 package br.service;
 
-import br.exception.NotaInvalidaException;
-import br.exception.ObraInativaException;
-import br.exception.ObraJaCadastradaException;
-import br.exception.ObraNaoEncontradaException;
+import br.exception.*;
 import br.model.Avaliacao;
 import br.model.Exposicao;
 import br.model.Obra;
@@ -65,7 +62,7 @@ public class ObraService {
         return obras;
     }
 
-    public Vector<Obra> obrasExpostas(String nomeExposicao) throws NotaInvalidaException{
+    public Vector<Obra> obrasExpostas(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException {
         Exposicao exposicao = exposicaoRepository.getExpByNome(nomeExposicao);
         return exposicaoRepository.getObras(exposicao);
     }

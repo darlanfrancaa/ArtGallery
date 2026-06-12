@@ -140,7 +140,7 @@ public class TelaCadastroObras extends JPanel {
         catch (ObraJaCadastradaException e) {
             JOptionPane.showMessageDialog(this, "Essa obra já foi cadastrada");
         }
-        catch (Exception ex) {
+        catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro inesperado ao cadastrar obra.");
         }
     }

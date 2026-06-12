@@ -1,6 +1,7 @@
 package br.repository;
 
 import br.config.ConnectionFactory;
+import br.exception.ExposicaoNaoEncontradaException;
 import br.exception.NotaInvalidaException;
 import br.model.*;
 import br.repository.strategy.IStrategyBank;
@@ -74,7 +75,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
         }
     }
 
-    public Exposicao getExpByNome(String nomeExposicao) throws NotaInvalidaException{
+    public Exposicao getExpByNome(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException {
         String sql = "SELECT id, nome FROM exposicoes WHERE nome = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -92,7 +93,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar a exposição pelo nome: " + nomeExposicao, e);
         }
-        return null;
+        throw new ExposicaoNaoEncontradaException("Exposicao não encontrada.");
     }
 
     public Vector<Obra> getObras(Exposicao exposicao) throws NotaInvalidaException {

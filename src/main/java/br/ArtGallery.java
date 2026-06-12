@@ -1,10 +1,7 @@
 package br;
 
 import br.IArtGallery;
-import br.exception.NotaInvalidaException;
-import br.exception.ObraInativaException;
-import br.exception.ObraJaCadastradaException;
-import br.exception.ObraNaoEncontradaException;
+import br.exception.*;
 import br.model.Avaliacao;
 import br.model.Obra;
 import br.repository.IRepositorioObra;
@@ -56,7 +53,7 @@ public class ArtGallery implements IArtGallery {
     }
 
     @Override
-    public Vector<Obra> ObrasExpostas(String nomeExposicao) throws NotaInvalidaException {
+    public Vector<Obra> ObrasExpostas(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException {
         return obraService.obrasExpostas(nomeExposicao);
     }
 }

@@ -35,6 +35,8 @@ public class MinhaJanela extends JFrame {
         TelaAvaliacaoObras avaliacaoObras = new TelaAvaliacaoObras(artGallery);
         TelaListarObras listarObras = new TelaListarObras(artGallery);
         TelaBuscarPorAutor buscarPorAutor = new TelaBuscarPorAutor(artGallery);
+        TelaTopObras telaTopObras = new TelaTopObras(artGallery);
+        TelaExposicao telaExposicao = new TelaExposicao(artGallery);
 
         JLabel teste = new JLabel("Teste", SwingConstants.CENTER);
 
@@ -43,8 +45,8 @@ public class MinhaJanela extends JFrame {
         painelCentral.add(avaliacaoObras, "tela_3");
         painelCentral.add(listarObras, "tela_4");
         painelCentral.add(buscarPorAutor, "tela_5");
-        painelCentral.add(new JLabel("Teste 6", SwingConstants.CENTER), "tela_6");
-        painelCentral.add(new JLabel("Teste 7", SwingConstants.CENTER), "tela_7");
+        painelCentral.add(telaTopObras, "tela_6");
+        painelCentral.add(telaExposicao, "tela_7");
 
         add(painelCentral, BorderLayout.CENTER);
 
