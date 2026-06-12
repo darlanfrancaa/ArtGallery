@@ -61,7 +61,7 @@ public class StrategyPinturaDigital implements IStrategyBank {
     @Override
     public Vector<Obra> listAll(Connection connection) throws SQLException {
         Vector<Obra> lista = new Vector<>();
-        String sql = "SELECT o.titulo, o.autor, o.ativa, p.resolucao, p.software " +
+        String sql = "SELECT o.id, o.titulo, o.autor, o.ativa, p.resolucao, p.software " +
                 "FROM obras o INNER JOIN pinturas_digitais p ON o.id = p.obra_id";
 
         try(PreparedStatement statement = connection.prepareStatement(sql);
@@ -74,6 +74,7 @@ public class StrategyPinturaDigital implements IStrategyBank {
                         rs.getString("resolucao"),
                         rs.getString("software")
                 );
+                pd.setId(rs.getInt("id"));
                 pd.setAtiva(rs.getBoolean("ativa"));
                 lista.add(pd);
             }

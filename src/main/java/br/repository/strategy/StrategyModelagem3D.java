@@ -61,7 +61,7 @@ public class StrategyModelagem3D implements IStrategyBank {
     @Override
     public Vector<Obra> listAll(Connection connection) throws SQLException {
         Vector<Obra> lista = new Vector<>();
-        String sql = "SELECT o.titulo, o.autor, o.ativa, m.poligonos, m.engine " +
+        String sql = "SELECT o.id, o.titulo, o.autor, o.ativa, m.poligonos, m.engine " +
                 "FROM obras o INNER JOIN modelagens_3d m ON o.id = m.obra_id";
 
         try(PreparedStatement statement = connection.prepareStatement(sql);
@@ -74,6 +74,7 @@ public class StrategyModelagem3D implements IStrategyBank {
                         rs.getInt("poligonos"),
                         rs.getString("engine")
                 );
+                m3d.setId(rs.getInt("id"));
                 m3d.setAtiva(rs.getBoolean("ativa"));
                 lista.add(m3d);
             }
