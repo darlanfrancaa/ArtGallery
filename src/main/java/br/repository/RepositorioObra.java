@@ -22,9 +22,10 @@ import java.util.Vector;
 
 public class RepositorioObra implements IRepositorioObra{
     private final Map<Class<? extends Obra>, IStrategyBank> registry = new HashMap<>();
-    private final RepositorioAvaliacao avalicaoRepository = new RepositorioAvaliacao();
+    private final RepositorioAvaliacao avalicaoRepository;
 
-    public RepositorioObra(){
+    public RepositorioObra(RepositorioAvaliacao avalicaoRepository){
+        this.avalicaoRepository = avalicaoRepository;
         registry.put(PinturaDigital.class, new StrategyPinturaDigital());
         registry.put(ArteGenerativa.class, new StrategyArteGenerativa());
         registry.put(Modelagem3D.class, new StrategyModelagem3D());
@@ -44,21 +45,27 @@ public class RepositorioObra implements IRepositorioObra{
             PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
             // Insere na tabelas de obras e depois insere na tabela da cada um dos tipos
 
-            connection.setAutoCommit(false);
+            try {
+                connection.setAutoCommit(false);
 
-            statement.setString(1, obra.getTitulo());
-            statement.setString(2, obra.getAutor());
-            statement.setBoolean(3, obra.isAtiva());
-            statement.setString(4, strategyInsercao.getTipo());
+                statement.setString(1, obra.getTitulo());
+                statement.setString(2, obra.getAutor());
+                statement.setBoolean(3, obra.isAtiva());
+                statement.setString(4, strategyInsercao.getTipo());
 
-            statement.executeUpdate();
+                statement.executeUpdate();
 
-            ResultSet resultSetId = statement.getGeneratedKeys();
-            if(resultSetId.next()){
-                int obraId = resultSetId.getInt(1);
-                strategyInsercao.inserir(connection, obraId, obra);
+                ResultSet resultSetId = statement.getGeneratedKeys();
+                // salva no banco, pega o id para salvar na tabela específic de cada classe
+                if (resultSetId.next()) {
+                    int obraId = resultSetId.getInt(1);
+                    strategyInsercao.inserir(connection, obraId, obra);
+                }
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
             }
-            connection.commit();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao cadastrar obra", e);
         }
@@ -124,8 +131,7 @@ public class RepositorioObra implements IRepositorioObra{
     @Override
     public void remover(String titulo) {
         String sql = "UPDATE obras SET ativa = false WHERE titulo = ?";
-        try (Connection conn = ConnectionFactory.getConnection()){
-            PreparedStatement statement = conn.prepareStatement(sql);
+        try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(sql)){
             statement.setString(1,titulo);
             statement.executeUpdate();
         } catch (SQLException e){
@@ -153,7 +159,7 @@ public class RepositorioObra implements IRepositorioObra{
     }
 
     // Retorna a classe strategy baseada no nome do tipo que está no banco/map (Útil para o buscar no banco
-    //         que após a query principal você não tem diretamente a classe )
+    //         que após a query principal você não tem diretamente a classe)
     private IStrategyBank getStrategyByTipo(String tipo){
         for(IStrategyBank strategyBank: registry.values()){
             if(strategyBank.getTipo().equals(tipo)) {
@@ -184,14 +190,13 @@ public class RepositorioObra implements IRepositorioObra{
                         // Precisa preenhcer o vetor de Avaliacoes daquela obra também
                         obraEncontrada.setAvaliacoes(avalicaoRepository.buscarPorObra(idBanco));
                         obras.add(obraEncontrada);
-                        return obras;
                     }
                 }
             }
         } catch (SQLException e){
             throw new RuntimeException("Não foi possivel buscar as obras do autor: " + autor, e);
         }
-        return null;
+        return obras;
     }
 
     @Override

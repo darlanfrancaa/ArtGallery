@@ -21,7 +21,6 @@ public class AvaliacaoService {
 
     public void avaliarObra(String titulo, Avaliacao avaliacao) throws ObraInativaException, ObraNaoEncontradaException, NotaInvalidaException {
         // primeiro eu tenho que checar se a obra existe e está ativa e depois eu preciso salvar a avaliacao no banco e
-        // colocar a avalição no Vector da obra
         Obra obraBanco = obraRepository.buscar(titulo);
         if(obraBanco == null) {
             throw new ObraNaoEncontradaException("Obra com título: " +  titulo  + " não encontrada.");
@@ -30,7 +29,6 @@ public class AvaliacaoService {
         } else {
             // Em tese um objeto Avaliacao só é criado com uma nota válida, então podemos assumir aqui que essa notá está válida
             avaliacaoRepository.adicionar(obraBanco.getId(), avaliacao);
-            obraBanco.adicionarAvaliacao(avaliacao);
         }
     }
 }

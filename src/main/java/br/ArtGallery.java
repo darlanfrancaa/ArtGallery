@@ -53,7 +53,7 @@ public class ArtGallery implements IArtGallery {
     }
 
     @Override
-    public Vector<Obra> ObrasExpostas(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException {
+    public Vector<Obra> obrasExpostas(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException, ObraInativaException {
         return obraService.obrasExpostas(nomeExposicao);
     }
 }

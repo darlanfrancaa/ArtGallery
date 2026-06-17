@@ -3,6 +3,7 @@ package br.repository;
 import br.config.ConnectionFactory;
 import br.exception.ExposicaoNaoEncontradaException;
 import br.exception.NotaInvalidaException;
+import br.exception.ObraInativaException;
 import br.model.*;
 import br.repository.strategy.IStrategyBank;
 import br.repository.strategy.StrategyArteGenerativa;
@@ -18,18 +19,14 @@ import java.util.Vector;
 
 public class RepositorioExposicao implements IRepositorioExposicao {
 
-    private final Map<Class<? extends Obra>, IStrategyBank> registry = new HashMap<>();
     private final IRepositorioObra obraRepository;
 
     public RepositorioExposicao(IRepositorioObra obraRepository) {
         this.obraRepository = obraRepository;
-        registry.put(PinturaDigital.class, new StrategyPinturaDigital());
-        registry.put(ArteGenerativa.class, new StrategyArteGenerativa());
-        registry.put(Modelagem3D.class, new StrategyModelagem3D());
     }
 
     @Override
-    public void cadastrar(Exposicao exposicao) {
+    public void cadastrar(Exposicao exposicao) throws SQLException {
         String sql = "INSERT INTO exposicoes (nome) VALUES (?)";
         String sqlObras = "INSERT INTO exposicoes_obras (exposicao_id, obra_id) VALUES (?, ?)";
         try (Connection conn = ConnectionFactory.getConnection()) {
@@ -75,7 +72,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
         }
     }
 
-    public Exposicao getExpByNome(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException {
+    public Exposicao getExpByNome(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException, ObraInativaException {
         String sql = "SELECT id, nome FROM exposicoes WHERE nome = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -85,7 +82,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
                     Exposicao exposicao = new Exposicao(rs.getString("nome"));
                     Vector<Obra> obrasDaExposicao = this.getObras(exposicao);
                     for (Obra obra : obrasDaExposicao) {
-                        exposicao.adicionarObra(obra);
+                        exposicao.adicionarObraVector(obra);
                     }
                     return exposicao;
                 }

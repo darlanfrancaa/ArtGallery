@@ -111,6 +111,14 @@ public class TelaCadastroObras extends JPanel {
         String tituloObra = titulo.getText().trim();
         String autorObra = autor.getText().trim();
         String tipoEscolhido = (String) tipoObra.getSelectedItem();
+        if (tituloObra.isEmpty() || autorObra.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Digite o título e o autor da obra.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (tipoEscolhido == null) {
+            JOptionPane.showMessageDialog(this, "Selecione algum tipo da obra.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         Obra obra = null;
         try{
             if(tipoEscolhido.equals("Modelagem 3D")) {

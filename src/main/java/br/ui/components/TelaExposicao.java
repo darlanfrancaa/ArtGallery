@@ -3,6 +3,7 @@ package br.ui.components;
 import br.IArtGallery;
 import br.exception.ExposicaoNaoEncontradaException;
 import br.exception.NotaInvalidaException;
+import br.exception.ObraInativaException;
 import br.model.Modelagem3D;
 import br.model.Obra;
 import br.model.PinturaDigital;
@@ -85,7 +86,7 @@ public class TelaExposicao extends JPanel {
         }
         tableModel.setRowCount(0);
         try {
-            Vector<Obra> obras = artGallery.ObrasExpostas(nomeExp);
+            Vector<Obra> obras = artGallery.obrasExpostas(nomeExp);
 
             if (obras != null && !obras.isEmpty()) {
                 for (Obra obra : obras) {
@@ -100,6 +101,8 @@ public class TelaExposicao extends JPanel {
             JOptionPane.showMessageDialog(this, "Alguma nota está inválida.");
         } catch (ExposicaoNaoEncontradaException e){
             JOptionPane.showMessageDialog(this, "Essa exposição não foi encontrada.");
+        } catch (ObraInativaException e){
+            JOptionPane.showMessageDialog(this, "Alguma dessas obras está inativa.");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro inesperado ao buscar essa exposição.");
         }

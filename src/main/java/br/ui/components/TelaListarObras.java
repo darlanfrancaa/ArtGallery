@@ -37,6 +37,10 @@ public class TelaListarObras extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
 
         renderizarTabela();
+
+        JButton botaoAtualizar = new JButton("Atualizar Tabela");
+        botaoAtualizar.addActionListener(e -> renderizarTabela());
+        add(botaoAtualizar, BorderLayout.SOUTH);
     }
 
     private void renderizarTabela(){
@@ -56,7 +60,6 @@ public class TelaListarObras extends JPanel {
 
     private static Object[] getObjects(Obra obra) {
         String classe = obra.getClass().getSimpleName();
-        String status = obra.isAtiva() ? "Ativa" : "Inativa";
 
         Map<String, String> mapaClasses = new HashMap<>();
         mapaClasses.put("PinturaDigital", "Pintura Digital");
@@ -64,7 +67,7 @@ public class TelaListarObras extends JPanel {
         mapaClasses.put("ArteGenerativa", "Arte Generativa");
         String tipo = mapaClasses.get(classe);
 
-        return new Object[]{obra.getTitulo(), obra.getAutor(), tipo, status};
+        return new Object[]{obra.getTitulo(), obra.getAutor(), tipo};
 
     }
 }

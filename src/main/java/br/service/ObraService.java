@@ -4,20 +4,17 @@ import br.exception.*;
 import br.model.Avaliacao;
 import br.model.Exposicao;
 import br.model.Obra;
+import br.repository.IRepositorioExposicao;
 import br.repository.IRepositorioObra;
-import br.repository.RepositorioExposicao;
-import br.repository.RepositorioObra;
-
-import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.Vector;
 
 public class ObraService {
 
     private final IRepositorioObra obraRepository;
-    private final RepositorioExposicao exposicaoRepository;
+    private final IRepositorioExposicao exposicaoRepository;
 
-    public ObraService(IRepositorioObra obraRepository, RepositorioExposicao exposicaoRepository) {
+    public ObraService(IRepositorioObra obraRepository, IRepositorioExposicao exposicaoRepository) {
         this.obraRepository = obraRepository;
         this.exposicaoRepository = exposicaoRepository;
     }
@@ -57,14 +54,15 @@ public class ObraService {
     }
 
     public Vector<Obra> topObras() throws NotaInvalidaException{
-        Vector<Obra> obras = obraRepository.listar();
+        // Filtrando as obras apenas pelas obras ativas
+        Vector<Obra> obras = listarObras();
         obras.sort(Comparator.comparingDouble(Obra::mediaAvaliacoes).reversed());
         return obras;
     }
 
-    public Vector<Obra> obrasExpostas(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException {
+    public Vector<Obra> obrasExpostas(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException, ObraInativaException {
         Exposicao exposicao = exposicaoRepository.getExpByNome(nomeExposicao);
-        return exposicaoRepository.getObras(exposicao);
+        return exposicao.listarObras();
     }
 
 }

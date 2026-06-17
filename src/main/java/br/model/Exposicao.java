@@ -1,9 +1,11 @@
 package br.model;
 
+import br.exception.ObraInativaException;
+
 import java.util.Vector;
 
 public class Exposicao {
-    private long id;
+    private int id;
     private String nome;
     private Vector<Obra> obras;
 
@@ -12,9 +14,22 @@ public class Exposicao {
         this.obras = new Vector<>();
     }
 
-    public void adicionarObra(Obra obra){
-        // Assumindo aqui que só é possível colocar uma obra ativa
-        if(obra != null && obra.isAtiva()){
+    public void adicionarObra(Obra obra) throws ObraInativaException {
+        if (obra == null) {
+            throw new IllegalArgumentException("A obra não pode ser nula.");
+        }
+        if (!obra.isAtiva()) {
+            throw new ObraInativaException("Não é possível adicionar a obra '" + obra.getTitulo() + "' pois ela está inativa.");
+        }
+        this.obras.add(obra);
+    }
+
+    // Esse metódo é necessário por que se excluirmos uma obra não poderiamos mais pegar o Vector dela se fosse usado apenas
+    // o adicionarObra, visto que ele só adiciona se a obra estiver ativa
+    // sendo que uma exposição pode ter obras inativas (acredito), caso ela tenha acontecido no passado
+
+    public void adicionarObraVector(Obra obra) {
+        if(obra != null) {
             this.obras.add(obra);
         }
     }
@@ -27,7 +42,7 @@ public class Exposicao {
         return nome;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -35,9 +50,6 @@ public class Exposicao {
         this.id = id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
 
 }

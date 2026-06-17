@@ -13,5 +13,5 @@ public interface IArtGallery {
     Vector<Obra> buscarPorAutor(String autor) throws NotaInvalidaException;
     Vector<Obra> topObras() throws NotaInvalidaException;
     Vector<Obra> listarObras() throws NotaInvalidaException;
-    Vector<Obra> ObrasExpostas(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException;
+    Vector<Obra> obrasExpostas(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException, ObraInativaException;
 }

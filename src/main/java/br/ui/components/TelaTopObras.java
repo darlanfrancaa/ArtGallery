@@ -37,6 +37,10 @@ public class TelaTopObras extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
 
         renderizarTabela();
+
+        JButton botaoAtualizar = new JButton("Atualizar Tabela");
+        botaoAtualizar.addActionListener(e -> renderizarTabela());
+        add(botaoAtualizar, BorderLayout.SOUTH);
     }
 
     private void renderizarTabela(){

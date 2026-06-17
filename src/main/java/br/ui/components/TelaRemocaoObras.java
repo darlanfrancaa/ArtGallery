@@ -51,11 +51,12 @@ public class TelaRemocaoObras extends JPanel {
         catch (ObraNaoEncontradaException e) {
             JOptionPane.showMessageDialog(this, "Obra não encontrada");
         }
-        catch (RuntimeException e) {
-           JOptionPane.showMessageDialog(this, "Erro inesperado ao apagar a mensagem.");
-        }
         catch (NotaInvalidaException e){
             JOptionPane.showMessageDialog(this, "Alguma nota dessa obra é inválida");
         }
+        catch (RuntimeException e) {
+           JOptionPane.showMessageDialog(this, "Erro inesperado ao apagar a mensagem.");
+        }
+
     }
 }
