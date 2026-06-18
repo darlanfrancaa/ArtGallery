@@ -2,13 +2,12 @@ package br.ui.components;
 
 import br.IArtGallery;
 import br.exception.NotaInvalidaException;
-import br.model.Modelagem3D;
 import br.model.Obra;
-import br.model.PinturaDigital;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -68,8 +67,9 @@ public class TelaTopObras extends JPanel {
         mapaClasses.put("ArteGenerativa", "Arte Generativa");
         String tipo = mapaClasses.get(classe);
         double media = obra.mediaAvaliacoes();
+        DecimalFormat df = new DecimalFormat("0.00");
 
-        return new Object[]{obra.getTitulo(), obra.getAutor(), tipo, status, media};
+        return new Object[]{obra.getTitulo(), obra.getAutor(), tipo, status, df.format(media)};
 
     }
 }
