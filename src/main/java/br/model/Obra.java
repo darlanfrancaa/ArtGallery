@@ -72,5 +72,4 @@ public abstract class Obra {
 
     public abstract String exibirDetalhes();
 
-
 }

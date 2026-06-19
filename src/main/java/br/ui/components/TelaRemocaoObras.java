@@ -46,16 +46,16 @@ public class TelaRemocaoObras extends JPanel {
             JOptionPane.showMessageDialog(this, "A obra com título " + tituloObra + " foi desativada.");
         }
         catch (ObraInativaException e) {
-            JOptionPane.showMessageDialog(this, "Essa obra já está inativa");
+            JOptionPane.showMessageDialog(this, "Essa obra já está inativa", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
         catch (ObraNaoEncontradaException e) {
-            JOptionPane.showMessageDialog(this, "Obra não encontrada");
+            JOptionPane.showMessageDialog(this, "Obra não encontrada", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
         catch (NotaInvalidaException e){
-            JOptionPane.showMessageDialog(this, "Alguma nota dessa obra é inválida");
+            JOptionPane.showMessageDialog(this, "Alguma nota dessa obra é inválida", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
         catch (RuntimeException e) {
-           JOptionPane.showMessageDialog(this, "Erro inesperado ao apagar a mensagem.");
+           JOptionPane.showMessageDialog(this, "Erro inesperado ao apagar a mensagem.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
 
     }

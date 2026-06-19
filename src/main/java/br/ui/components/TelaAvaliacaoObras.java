@@ -57,13 +57,13 @@ public class TelaAvaliacaoObras extends JPanel {
             artGallery.avaliarObra(tituloObra, avaliacao);
             JOptionPane.showMessageDialog(this, "Avaliação para a obra " + tituloObra + " salva com sucesso.");
         } catch (NotaInvalidaException e){
-            JOptionPane.showMessageDialog(this, "A nota não é válida.");
+            JOptionPane.showMessageDialog(this, "A nota não é válida.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "A nota deve ser um número inteiro");
+            JOptionPane.showMessageDialog(this, "A nota deve ser um número inteiro", "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (ObraInativaException e) {
-            JOptionPane.showMessageDialog(this, "Essa obra está inativa, não é possível avaliá-la");
+            JOptionPane.showMessageDialog(this, "Essa obra está inativa, não é possível avaliá-la", "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (ObraNaoEncontradaException e) {
-            JOptionPane.showMessageDialog(this, "Essa obra não foi encontrada");
+            JOptionPane.showMessageDialog(this, "Essa obra não foi encontrada", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

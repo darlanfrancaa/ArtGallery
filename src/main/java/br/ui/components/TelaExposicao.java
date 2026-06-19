@@ -81,7 +81,7 @@ public class TelaExposicao extends JPanel {
     private void renderizarTabela(){
         String nomeExp = nomeExposicao.getText().trim();
         if(nomeExp.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Digite o nome de uma exposição primeiro.");
+            JOptionPane.showMessageDialog(this, "Digite o nome de uma exposição primeiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
         tableModel.setRowCount(0);
@@ -95,16 +95,16 @@ public class TelaExposicao extends JPanel {
                 }
                 alternarEstado(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Nenhuma obra encontrada para a Exposicao: " + nomeExp);
+                JOptionPane.showMessageDialog(this, "Nenhuma obra encontrada para a Exposicao: " + nomeExp, "Aviso", JOptionPane.WARNING_MESSAGE);
             }
         } catch (NotaInvalidaException e) {
-            JOptionPane.showMessageDialog(this, "Alguma nota está inválida.");
+            JOptionPane.showMessageDialog(this, "Alguma nota está inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (ExposicaoNaoEncontradaException e){
-            JOptionPane.showMessageDialog(this, "Essa exposição não foi encontrada.");
+            JOptionPane.showMessageDialog(this, "Essa exposição " + nomeExp + " não foi encontrada.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (ObraInativaException e){
-            JOptionPane.showMessageDialog(this, "Alguma dessas obras está inativa.");
+            JOptionPane.showMessageDialog(this, "Alguma dessas obras está inativa.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro inesperado ao buscar essa exposição.");
+            JOptionPane.showMessageDialog(this, "Erro inesperado ao buscar essa exposição.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 

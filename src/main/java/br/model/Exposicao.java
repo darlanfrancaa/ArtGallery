@@ -38,6 +38,17 @@ public class Exposicao {
         return this.obras;
     }
 
+    public double media() {
+        if (obras == null || obras.isEmpty()) {
+            return 0.0;
+        }
+        double soma = 0.0;
+        for (Obra obra : obras) {
+            soma += obra.mediaAvaliacoes();
+        }
+        return soma / obras.size();
+    }
+
     public String getNome(){
         return nome;
     }
@@ -49,6 +60,11 @@ public class Exposicao {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setObras(Vector<Obra> obras){
+        this.obras = obras;
+    }
+
 
 
 

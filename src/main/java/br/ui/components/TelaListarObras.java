@@ -54,7 +54,7 @@ public class TelaListarObras extends JPanel {
                 }
             }
         } catch (NotaInvalidaException e) {
-            JOptionPane.showMessageDialog(this, "Alguma nota está inválida.");
+            JOptionPane.showMessageDialog(this, "Alguma nota está inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 

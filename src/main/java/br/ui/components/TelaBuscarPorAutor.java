@@ -79,7 +79,7 @@ public class TelaBuscarPorAutor extends JPanel {
     private void renderizarTabela(){
         String nomeAutor = autor.getText().trim();
         if(nomeAutor.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Digite o nome de um autor primeiro.");
+            JOptionPane.showMessageDialog(this, "Digite o nome de um autor primeiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
         tableModel.setRowCount(0);
@@ -93,12 +93,12 @@ public class TelaBuscarPorAutor extends JPanel {
                 }
                 alternarEstado(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Nenhuma obra encontrada para o autor: " + nomeAutor);
+                JOptionPane.showMessageDialog(this, "Nenhuma obra encontrada para o autor: " + nomeAutor, "Aviso", JOptionPane.WARNING_MESSAGE);
             }
         } catch (NotaInvalidaException e) {
-            JOptionPane.showMessageDialog(this, "Alguma nota está inválida.");
+            JOptionPane.showMessageDialog(this, "Alguma nota está inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro inesperado ao buscar: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro inesperado ao buscar: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -36,7 +36,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
                 statement.executeUpdate();
                 try (ResultSet rs = statement.getGeneratedKeys()) {
                     if (!rs.next()) {
-                        throw new SQLException( "Não foi possível obter o ID da exposição.");
+                        throw new SQLException("Não foi possível obter o ID da exposição.");
                     }
                     int idExposicao = rs.getInt(1);
                     exposicao.setId(idExposicao);
@@ -55,31 +55,33 @@ public class RepositorioExposicao implements IRepositorioExposicao {
                 throw e;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao salvar exposição",e);
+            throw new RuntimeException("Erro ao salvar exposição", e);
         }
     }
 
     @Override
     public void adicionar(Exposicao exposicao, Obra obra) {
         String sql = "INSERT INTO exposicoes_obras (exposicao_id, obra_id) VALUES (?, ?)";
-        try(Connection connection = ConnectionFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
+        try (Connection connection = ConnectionFactory.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, exposicao.getId());
-            statement.setInt(2,obra.getId());
+            statement.setInt(2, obra.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Não foi possivel inserir exposição", e);
         }
     }
 
-    public Exposicao getExpByNome(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException, ObraInativaException {
+    public Exposicao getExpByNome(String nomeExposicao) throws NotaInvalidaException, ExposicaoNaoEncontradaException {
         String sql = "SELECT id, nome FROM exposicoes WHERE nome = ?";
         try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
             statement.setString(1, nomeExposicao);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
-                    Exposicao exposicao = new Exposicao(rs.getString("nome"));
+                    String nomeBanco = rs.getString("nome");
+                    Exposicao exposicao = new Exposicao(nomeBanco);
+                    exposicao.setId(rs.getInt("id"));
                     Vector<Obra> obrasDaExposicao = this.getObras(exposicao);
                     for (Obra obra : obrasDaExposicao) {
                         exposicao.adicionarObraVector(obra);
@@ -102,7 +104,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
                 "WHERE e.nome = ?";
 
         try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setString(1, exposicao.getNome());
 
@@ -116,8 +118,7 @@ public class RepositorioExposicao implements IRepositorioExposicao {
 
                     // Já retorna com as avaliações
                     Obra obraCompleta = obraRepository.buscarObraPorTipo(
-                            conn, idBanco, tituloBanco, autorBanco, ativaBanco, tipoBanco
-                    );
+                            conn, idBanco, tituloBanco, autorBanco, ativaBanco, tipoBanco);
 
                     if (obraCompleta != null) {
                         obrasExpostas.add(obraCompleta);
@@ -129,5 +130,29 @@ public class RepositorioExposicao implements IRepositorioExposicao {
         }
 
         return obrasExpostas;
+    }
+
+    @Override
+    public Vector<Exposicao> listar() throws NotaInvalidaException {
+        Vector<Exposicao> exposicoes = new Vector<>();
+        String sql = "SELECT id, nome FROM exposicoes";
+        try (Connection conn = ConnectionFactory.getConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+                ResultSet rs = statement.executeQuery()) {
+
+            while (rs.next()) {
+                String nomeExp = rs.getString("nome");
+                Exposicao exposicao = new Exposicao(nomeExp);
+                exposicao.setId(rs.getInt("id"));
+                Vector<Obra> obrasExp = this.getObras(exposicao);
+                // coloquei no vetor os objetos exposicoes já preenchidos e completos com o
+                // vetor de obras
+                exposicao.setObras(obrasExp);
+                exposicoes.add(exposicao);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar exposições", e);
+        }
+        return exposicoes;
     }
 }
